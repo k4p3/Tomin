@@ -16,9 +16,19 @@ class CategoryForm
                     ->label(__('Name'))
                     ->required()
                     ->maxLength(255),
+                
+                TextInput::make('monthly_budget')
+                    ->label(__('Monthly Budget'))
+                    ->helperText(__('Set to 0 for no limit.'))
+                    ->numeric()
+                    ->prefix('$')
+                    ->default(0)
+                    ->required(),
+
                 TextInput::make('icon')
                     ->label(__('Icon'))
                     ->placeholder('heroicon-o-home'),
+                
                 ColorPicker::make('color')
                     ->label(__('Color')),
             ]);

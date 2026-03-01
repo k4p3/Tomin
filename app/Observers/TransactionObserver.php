@@ -4,7 +4,8 @@ namespace App\Observers;
 
 use App\Models\Transaction;
 use Filament\Notifications\Notification;
-use Filament\Notifications\Actions\Action;
+use Filament\Actions\Action;
+use Illuminate\Support\Carbon;
 
 class TransactionObserver
 {
@@ -16,9 +17,15 @@ class TransactionObserver
         // 1. Actualizar el saldo de la cuenta
         $this->updateAccountBalance($transaction);
 
-        // 2. Alerta de Gasto Alto
-        if ($transaction->type === 'expense' && (float) $transaction->amount >= 5000) {
-            $this->sendHighExpenseNotification($transaction);
+        // 2. Alertas de Gasto
+        if ($transaction->type === 'expense') {
+            // Alerta de Gasto Alto
+            if ((float) $transaction->amount >= 5000) {
+                $this->sendHighExpenseNotification($transaction);
+            }
+
+            // Alerta de Presupuesto por Categoría
+            $this->checkCategoryBudget($transaction);
         }
 
         // 3. Alerta de Bajo Saldo
@@ -87,6 +94,51 @@ class TransactionObserver
                             ->label(__('View Account'))
                             ->url("/admin/accounts/{$account->id}/edit")
                     ])
+                    ->sendToDatabase($user);
+            }
+        }
+    }
+
+    /**
+     * Revisa si el gasto total de la categoría este mes supera el presupuesto.
+     */
+    protected function checkCategoryBudget(Transaction $transaction): void
+    {
+        $category = $transaction->category;
+
+        if ($category && (float) $category->monthly_budget > 0) {
+            $month = Carbon::now()->month;
+            $year = Carbon::now()->year;
+
+            $totalSpent = Transaction::where('category_id', $category->id)
+                ->where('type', 'expense')
+                ->whereMonth('transaction_date', $month)
+                ->whereYear('transaction_date', $year)
+                ->get()
+                ->sum(fn ($t) => (float) $t->amount);
+
+            if ($totalSpent > (float) $category->monthly_budget) {
+                $user = $transaction->user;
+
+                Notification::make()
+                    ->title(__('Budget Exceeded'))
+                    ->danger()
+                    ->body(__('You have exceeded the monthly budget for ":category". Budget: :budget, Spent: :spent', [
+                        'category' => $category->name,
+                        'budget' => number_format((float) $category->monthly_budget, 2),
+                        'spent' => number_format($totalSpent, 2),
+                    ]))
+                    ->sendToDatabase($user);
+            } elseif ($totalSpent >= ((float) $category->monthly_budget * 0.8)) {
+                // Alerta al llegar al 80%
+                $user = $transaction->user;
+
+                Notification::make()
+                    ->title(__('Budget Warning'))
+                    ->warning()
+                    ->body(__('You have reached 80% of your budget for ":category".', [
+                        'category' => $category->name,
+                    ]))
                     ->sendToDatabase($user);
             }
         }

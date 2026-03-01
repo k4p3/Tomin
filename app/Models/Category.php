@@ -12,7 +12,7 @@ class Category extends Model
 {
     use HasUlids, BelongsToWallet, HasAudit;
 
-    protected $fillable = ['wallet_id', 'name', 'icon', 'color', 'created_by', 'updated_by'];
+    protected $fillable = ['wallet_id', 'name', 'icon', 'color', 'monthly_budget', 'created_by', 'updated_by'];
 
     public function merchants(): HasMany
     {

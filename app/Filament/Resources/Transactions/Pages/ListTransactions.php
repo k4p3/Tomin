@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Transactions\Pages;
 use App\Actions\CreateTransferAction;
 use App\Filament\Resources\Transactions\TransactionResource;
 use App\Filament\Exports\TransactionExporter;
+use App\Filament\Imports\TransactionImporter;
 use App\Models\Account;
 use Filament\Actions;
 use Filament\Forms\Components\DatePicker;
@@ -21,6 +22,11 @@ class ListTransactions extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            // Botón de Importación
+            Actions\ImportAction::make()
+                ->importer(TransactionImporter::class)
+                ->label(__('Import')),
+
             // Botón de Exportación
             Actions\ExportAction::make()
                 ->exporter(TransactionExporter::class)

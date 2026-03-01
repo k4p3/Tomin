@@ -13,3 +13,6 @@ Schedule::command('transactions:remind-recurring')->dailyAt('08:00');
 
 // Recordatorios de pago de tarjetas (3 días antes)
 Schedule::command('cards:remind-payments')->dailyAt('09:00');
+
+// Captura de patrimonio neto diaria
+Schedule::command('wallets:snapshot')->dailyAt('23:59');
