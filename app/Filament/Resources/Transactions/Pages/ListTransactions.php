@@ -34,7 +34,9 @@ class ListTransactions extends ListRecords
             // Botón de Importación
             Actions\ImportAction::make()
                 ->importer(TransactionImporter::class)
-                ->label(__('Import')),
+                ->label(__('Import'))
+                ->fileUploadOption('acceptedFileTypes', ['text/csv', 'application/vnd.ms-excel'])
+                ->fileUploadOption('directory', 'imports'),
 
             // Botón de Exportación
             Actions\ExportAction::make()

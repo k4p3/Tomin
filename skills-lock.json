@@ -6,6 +6,11 @@
       "sourceType": "github",
       "computedHash": "8e7763e017b3cfbdbf16bd968cfdb62e138a7e89f9494766e1d91c4e339fcd5f"
     },
+    "laravel-security-audit": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "computedHash": "397b854e1b71dfc8007d29e0174ee3bb89cc518700565a82c2f5cee7d1d20dfd"
+    },
     "laravel-specialist": {
       "source": "jeffallan/claude-skills",
       "sourceType": "github",

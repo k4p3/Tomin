@@ -27,10 +27,8 @@
                 @auth
                     <a href="{{ url('/admin') }}" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-amber-500">Dashboard</a>
                 @else
-                    <a href="{{ route('filament.admin.auth.login') }}" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-amber-500">Entrar</a>
-                    @if (Route::has('filament.admin.auth.register'))
-                        <a href="{{ route('filament.admin.auth.register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-amber-500">Registrarse</a>
-                    @endif
+                    <a href="/admin/login" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-amber-500">Entrar</a>
+                    <a href="/admin/register" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-amber-500">Registrarse</a>
                 @endauth
             </div>
         </div>
@@ -45,7 +43,7 @@
                     La plataforma SaaS diseñada para gestionar billeteras compartidas, MSI y automatización de gastos con seguridad de grado bancario.
                 </p>
                 <div class="flex justify-center gap-4">
-                    <a href="{{ route('filament.admin.auth.login') }}" class="px-8 py-4 bg-gray-900 text-white font-bold rounded-xl shadow-xl hover:bg-gray-800 transition-all transform hover:-translate-y-1">
+                    <a href="/admin/register" class="px-8 py-4 bg-gray-900 text-white font-bold rounded-xl shadow-xl hover:bg-gray-800 transition-all transform hover:-translate-y-1">
                         Comenzar Ahora
                     </a>
                     <a href="#features" class="px-8 py-4 bg-white text-gray-900 font-bold rounded-xl shadow-md border border-gray-100 hover:bg-gray-50 transition-all">
