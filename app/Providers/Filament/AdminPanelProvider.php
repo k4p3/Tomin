@@ -27,7 +27,8 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->brandName('Finanzas Pro')
+            ->login(\App\Filament\Pages\Auth\Login::class)
             ->registration(\App\Filament\Pages\Auth\Register::class)
             ->profile(\App\Filament\Pages\Auth\EditProfile::class)
             ->databaseNotifications()
@@ -36,7 +37,9 @@ class AdminPanelProvider extends PanelProvider
             ->tenantMenu(true)
             ->colors([
                 'primary' => Color::Amber,
+                'gray' => Color::Slate,
             ])
+            ->font('Figtree')
             ->navigationGroups([
                 __('Finance'),
                 __('Management'),

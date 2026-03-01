@@ -14,12 +14,17 @@ class WalletScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        // Si estamos en la terminal (ej. migrations, seeds) o no hay un tenant, no filtramos.
-        if (app()->runningInConsole() || !Filament::getTenant()) {
+        // 1. Si no hay un tenant, no filtramos.
+        if (!Filament::getTenant()) {
             return;
         }
 
-        // Especificamos la tabla del modelo para evitar ambigüedades en JOINS
+        // 2. Si estamos en consola pero NO estamos en tests, no filtramos (migraciones, seeds).
+        if (app()->runningInConsole() && !app()->runningUnitTests()) {
+            return;
+        }
+
+        // 3. Aplicar filtro
         $builder->where($model->getTable() . '.wallet_id', Filament::getTenant()->id);
     }
 }

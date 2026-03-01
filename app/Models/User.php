@@ -13,10 +13,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements FilamentUser, HasTenants
+use Laragear\TwoFactor\TwoFactorAuthentication;
+use Laragear\TwoFactor\Contracts\TwoFactorAuthenticatable;
+
+class User extends Authenticatable implements FilamentUser, HasTenants, TwoFactorAuthenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, TwoFactorAuthentication;
 
     /**
      * Determina si el usuario puede acceder al panel de Filament.
