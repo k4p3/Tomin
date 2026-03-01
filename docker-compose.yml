@@ -1,0 +1,52 @@
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: finanzas-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - finance-network
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: finanzas-app
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - finance-network
+
+  db:
+    image: mariadb:10.11
+    container_name: finanzas-db
+    environment:
+      MARIADB_DATABASE: finanzas
+      MARIADB_USER: usuario_finanzas
+      MARIADB_PASSWORD: password_secreto
+      MARIADB_ROOT_PASSWORD: password_secreto
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - finance-network
+
+  redis:
+    image: redis:alpine
+    container_name: finanzas-redis
+    networks:
+      - finance-network
+
+networks:
+  finance-network:
+    name: finance-network
+    driver: bridge
+
+volumes:
+  db_data:

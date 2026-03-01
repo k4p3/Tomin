@@ -1,0 +1,8 @@
+.env
+storage/*.key
+node_modules
+vendor
+public/build
+public/storage
+.agents/
+.claude/
