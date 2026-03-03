@@ -1,59 +1,148 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Tomin
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Tomin** es una plataforma web para control financiero personal y compartido.
 
-## About Laravel
+Permite administrar billeteras, categorías, transacciones, comercios, compras a MSI, automatizaciones recurrentes e invitaciones para colaborar en billeteras compartidas.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Características principales
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Gestión de **billeteras personales y compartidas**.
+- Registro y consulta de **ingresos/gastos** con categorías y comercios.
+- Soporte de **MSI (Meses Sin Intereses)** y procesamiento mensual automático.
+- **Transacciones recurrentes** con ejecución programada.
+- Flujo de **invitaciones por token** para unirse a billeteras compartidas.
+- Panel administrativo con **Filament v5** y widgets financieros.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Stack técnico
 
-## Learning Laravel
+- **Backend:** Laravel 12, PHP 8.2+
+- **Panel admin:** Filament v5 + Livewire
+- **Base de datos:** MariaDB (Docker) / MySQL compatible
+- **Cache y colas:** Redis
+- **Frontend build:** Vite + Tailwind CSS 4
+- **Testing:** Pest / PHPUnit
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Módulos del panel
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Recursos disponibles en el panel administrativo:
 
-## Laravel Sponsors
+- Cuentas
+- Bitácora de actividad
+- Categorías
+- Compras a MSI
+- Invitaciones
+- Comercios
+- Transacciones recurrentes
+- Transacciones
+- Billeteras
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Requisitos
 
-### Premium Partners
+- PHP 8.2 o superior
+- Composer
+- Node.js + npm
+- MariaDB/MySQL y Redis
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+> Alternativamente puedes usar Docker con el `docker-compose.yml` incluido.
 
-## Contributing
+## Instalación rápida (sin Docker)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. Instalar dependencias:
 
-## Code of Conduct
+```bash
+composer install
+npm install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. Configurar entorno:
 
-## Security Vulnerabilities
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. Configurar base de datos y redis en `.env`.
 
-## License
+4. Ejecutar migraciones:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan migrate
+```
+
+5. Compilar assets:
+
+```bash
+npm run build
+```
+
+6. Levantar entorno de desarrollo:
+
+```bash
+composer run dev
+```
+
+Esto inicia servidor HTTP, cola, logs y Vite en paralelo.
+
+## Instalación con Docker
+
+El proyecto incluye servicios `nginx`, `app`, `db` (MariaDB) y `redis`.
+
+```bash
+docker compose up -d --build
+docker compose exec app composer install
+docker compose exec app php artisan key:generate
+docker compose exec app php artisan migrate
+docker compose exec app npm install
+docker compose exec app npm run build
+```
+
+URL por defecto:
+
+- Landing: `http://localhost:8080/`
+- Admin: `http://localhost:8080/admin`
+
+## Tareas programadas
+
+El proyecto agenda automáticamente:
+
+- Procesamiento de transacciones recurrentes
+- Procesamiento mensual de MSI
+- Recordatorios de transacciones recurrentes
+- Recordatorios de pago de tarjetas
+- Snapshot diario de balances/patrimonio
+
+Para ejecución continua del scheduler:
+
+```bash
+php artisan schedule:work
+```
+
+o configurar cron con:
+
+```bash
+* * * * * php /ruta/proyecto/artisan schedule:run >> /dev/null 2>&1
+```
+
+## Scripts útiles
+
+- Desarrollo completo: `composer run dev`
+- Tests: `composer run test`
+- Formateo (Pint): `./vendor/bin/pint`
+
+## Rutas relevantes
+
+- `/` landing pública
+- `/admin` panel administrativo
+- `/invitation/{token}` aceptación de invitaciones
+
+## Seguridad
+
+- Autenticación de usuarios en panel administrativo
+- Soporte de doble factor vía `laragear/two-factor`
+- Manejo de invitaciones con token y expiración
+
+## Licencia
+
+Este proyecto está licenciado bajo **Polyform Noncommercial License 1.0.0**.
+
+Consulta el archivo [LICENSE](LICENSE) para el texto completo y condiciones de uso.
