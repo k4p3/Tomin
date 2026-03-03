@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name') }} - Finanzas Inteligentes</title>
+    <title>{{ config('app.name') }} - Control total, tranquilidad real</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
@@ -36,11 +36,17 @@
         <!-- Contenido Principal -->
         <div class="max-w-7xl mx-auto p-6 lg:p-8 mt-20 sm:mt-0">
             <div class="text-center">
+                <p class="text-sm md:text-base font-semibold text-amber-700 uppercase tracking-widest mb-4">
+                    Bienvenido a {{ config('app.name') }}
+                </p>
                 <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 mb-6 tracking-tight">
                     Controla tus finanzas, <br><span class="text-amber-600">junto a los que amas.</span>
                 </h1>
+                <p class="text-base md:text-lg font-medium text-gray-700 mb-4">
+                    Tomin: control total, tranquilidad real.
+                </p>
                 <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-                    La plataforma SaaS diseñada para gestionar billeteras compartidas, MSI y automatización de gastos con seguridad de grado bancario.
+                    {{ config('app.name') }} es la plataforma SaaS diseñada para gestionar billeteras compartidas, MSI y automatización de gastos con seguridad de grado bancario.
                 </p>
                 <div class="flex justify-center gap-4">
                     <a href="/admin/register" class="px-8 py-4 bg-gray-900 text-white font-bold rounded-xl shadow-xl hover:bg-gray-800 transition-all transform hover:-translate-y-1">
